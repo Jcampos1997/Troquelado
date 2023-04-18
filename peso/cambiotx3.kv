@@ -1,0 +1,116 @@
+#:import rgba kivy.utils.get_color_from_hex
+<Cambiotx3@Screen>:
+    name: 'cambiotx3'
+    BoxLayout:
+        padding:100
+        canvas:
+            Color:
+                rgba: rgba("#CEECF5")
+            Rectangle: 
+                size: self.size
+                pos: self.pos
+        orientation: 'vertical' #Arrange four child objects vertically
+        AnchorLayout:   
+            size_hint_y: 0.3
+
+            Label:
+                color: rgba("#0174DF")
+                text: 'Cambio de turno operador'
+                font_size: 32
+        AnchorLayout:   
+            size_hint_y: 0.2
+            Label:
+                id: rlabel
+                bold: True
+                font_size: 24
+                color: 145 , 200 , 164 , 1
+
+        AnchorLayout:
+            size_hint_y: 0.2
+            Label:
+                color: rgba("#0174DF")
+                text: 'USUARIO SUPERVISOR'
+                font_size: 18
+                halign: 'center'
+                text_size: root.width-20, 20
+        AnchorLayout:   
+            size_hint_y: 0.2
+            TextInput:
+                color: 237 , 112 , 64 , 1
+                id: login
+                multiline:False
+                font_size: 24
+                width: 300
+                size_hint_x: None 
+
+
+        AnchorLayout:
+            size_hint_y: 0.2
+            Label:
+                color: rgba("#0174DF")
+                text: 'PASSWORD SUPERVISOR'
+                halign: 'center'
+                font_size: 18
+                text_size: root.width-20, 20
+                
+        AnchorLayout:
+            size_hint_y: 0.2
+            TextInput:
+                id: password
+                multiline:False
+                password:True
+                font_size: 16
+                width: 300
+                size_hint_x: None                 
+        
+        AnchorLayout:
+            size_hint_y: 0.2
+            Label:
+                color: rgba("#0174DF")
+                text: 'SELECCIONE NUEVO OPERADOR'
+                halign: 'center'
+                font_size: 18
+                text_size: root.width-20, 20
+
+        AnchorLayout:   
+            size_hint_y: 0.2                
+            TextInput:
+                id: idoperador
+                multiline:False
+                font_size: 24
+                width: 300
+                size_hint_x: None 
+
+        GridLayout:
+            cols: 3
+            size_hint_y: 1
+            row_default_height: 70
+            row_force_default: True
+            AnchorLayout:
+                anchor_x: 'right'
+                padding:3       
+                Button:
+                    on_release: app.root.current = "rollot"
+                    size_hint_y: 0.4
+                    text: 'Regresar'
+                    font_size: 24
+                    background_normal: ''
+                    background_color: rgba("#0174DF")
+                    width: 200
+                    height:40
+                    
+                    size_hint_x: None   
+                    size_hint_y: None 
+            AnchorLayout:
+                anchor_x: 'left'                         
+                Button:
+                    on_press:root.validar_usuario()
+                    size_hint_y: 0.4
+                    text: 'Confirmar'
+                    font_size: 24
+                    background_normal: ''
+                    background_color: rgba("#A93226")
+                    width: 200
+                    height:40
+                    size_hint_x: None   
+                    size_hint_y: None                               

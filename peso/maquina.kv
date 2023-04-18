@@ -1,0 +1,103 @@
+#:kivy 2.0.0
+#:import rgba kivy.utils.get_color_from_hex
+<Px>:
+    Label:
+        text: "\n\nLa parada seleccionada\nesta en uso"
+        size_hint: 0.6, 0.2
+        pos_hint: {"x":0.2, "top":1}
+    Button:
+        text: "Continuar trabajando"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x":0.1, "y":0.1}
+        on_release: app.root.current = "rollo"
+        #on_press: root.envio()
+
+<Px2>:
+    Label:
+        text: "\n\nLa parada seleccionada\nesta en uso"
+        size_hint: 0.6, 0.2
+        pos_hint: {"x":0.2, "top":1}
+    Button:
+        text: "Continuar trabajando"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x":0.1, "y":0.1}
+        on_release: app.root.current = "rollod"
+        #on_press: root.envio()
+
+<Px3>:
+    Label:
+        text: "\n\nLa parada seleccionada\nesta en uso"
+        size_hint: 0.6, 0.2
+        pos_hint: {"x":0.2, "top":1}
+    Button:
+        text: "Continuar trabajando"
+        pos_hint: {"x":0.1, "y":0.1}
+        size_hint: 0.8, 0.2
+        on_release: app.root.current = "rollot"
+        #on_press: root.envio()
+        
+
+<Maquina@Screen>
+    name:'maquina'   
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: rgba("#D8D8D8")
+            Rectangle: 
+                size: self.size
+                pos: self.pos
+
+        orientation: 'vertical' #Arrange four child objects vertically
+        padding:20
+
+        BoxLayout:   
+            Button: 
+                id: maq1
+                background_color: rgba("#01DFA5")
+                font_size:24
+                #size_hint_y: 0.1
+                #size_hint: 0.9, 10 
+                text: 'SELECCIONE LA PARADA A USAR'
+                height: 170
+                size_hint_y: None 
+                Image:
+                    source: 'usando.png'
+                    y: self.parent.y + self.parent.height - 170
+                    x: self.parent.x + self.parent.width - 400
+                    width: 100
+            
+        AnchorLayout:  
+            size: root.width, root.height       
+         
+            Button:
+                id: f_but
+                width: 340
+                height: 70
+                size_hint_x: None 
+                size_hint_y: None 
+                font_size:34  
+                text:'PARADA #1'
+                on_press: root.maq_uno()
+                
+        AnchorLayout:  
+            size: root.width, root.height       
+            Button:
+                id: f_but
+                width: 340
+                height: 70
+                size_hint_x: None 
+                size_hint_y: None 
+                font_size:34  
+                text:'PARADA #2'
+                on_press: root.maq_dos()
+        AnchorLayout:  
+            size: root.width, root.height       
+            Button:
+                id: f_but
+                width: 340
+                height: 70
+                size_hint_x: None 
+                size_hint_y: None 
+                font_size:34  
+                text:'PARADA #3'
+                on_press: root.maq_tres()

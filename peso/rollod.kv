@@ -1,0 +1,284 @@
+#:import rgba kivy.utils.get_color_from_hex
+<P>:
+    Label:
+        text: "\n\nDesea iniciar una nueva\nóden en esta máquina?"
+        size_hint: 0.6, 0.2
+        pos_hint: {"x":0.2, "top":1}
+    Button:
+        text: 'Confirmar'
+        size_hint: 0.8, 0.3
+        pos_hint: {"x":0.1, "y":0.1}
+        on_press: root.iniciomaq1()
+
+<PopupNuevoCanuto2>:
+    id: pop
+    size_hint: .3,.2
+    auto_dismiss: False
+    title: 'Pesar primer canuto'
+
+    Button:
+        text: "Pesar"
+        size_hint: 0.8, 0.3
+        on_press: root.cerrar_canuto_primero()
+
+<PopupUltimoRollo2>:
+    id: poprollo
+    size_hint: .3,.2
+    auto_dismiss: False
+    title: 'Pesar último rollo'
+
+    Button:
+        text: "Pesar"
+        size_hint: 0.8, 0.3
+        on_press: root.cerrar_rollo_ultimo()
+
+<Rollod@Screen>
+    name:'rollod'   
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: rgba("#D8D8D8")
+            Rectangle: 
+                size: self.size
+                pos: self.pos
+
+        orientation: 'vertical' #Arrange four child objects vertically
+        padding:20
+
+        BoxLayout:   
+            size_hint_y: 2
+            
+            Button: 
+                id: maq1
+                background_color: rgba("#AEB6BF")
+                font_size:24
+                #size_hint_y: 0.1AEB6BF
+                #size_hint: 0.9, 10 
+                text: 'PARADA #1'
+                on_press: root.maquinauno()
+                #on_press: root.tier()
+                Image:
+                    source: 'usando.png'
+                    y: self.parent.y + self.parent.height - 95
+                    x: self.parent.x + self.parent.width - 400
+                    width: 74
+            Button:
+                id: maq2
+                background_color: rgba("#01DFA5")
+                font_size:24
+                #size_hint_y: 0.1 
+                text: 'PARADA #2'
+                Image:
+                    source: 'usando.png'
+                    y: self.parent.y + self.parent.height - 95
+                    x: self.parent.x + self.parent.width - 400
+                    width: 74
+                
+            Button:
+                id:maq3
+                background_color: rgba("#AEB6BF")
+                font_size:24
+                #size_hint_y: 0.1 
+                text: 'PARADA #3'  
+                on_press: root.maquinatres()   
+                Image:
+                    source: 'usando.png'
+                    y: self.parent.y + self.parent.height - 95
+                    x: self.parent.x + self.parent.width - 400
+                    width: 74     
+
+        BoxLayout:   
+            size_hint_y: 1
+            padding:10
+            Label:
+                id:operador
+                text:'OPERADOR:'
+                color: rgba("#333333")
+                halign: 'left'
+                valign: 'middle'
+                markup: True
+                font_size:18
+                size_hint: (None, None)
+                size: self.texture_size 
+                
+        BoxLayout:
+            size_hint_y: 1
+        AnchorLayout:  
+            size: root.width, root.height       
+            size_hint_y: 1
+            Button:
+            # FA5858
+                id: btncap2
+                #background_color: 0,0,0,0
+                background_color: rgba("#0174DF")
+                font_size: 24
+                text:'CONTINUAR PROCESO'
+                on_press: root.continuar()
+                #size_hint_y: 0.5
+                size_hint: (.3, .9)
+        AnchorLayout:  
+            size: root.width, root.height       
+            size_hint_y: 1
+            Label:
+                id: copiado
+                color:rgba("#0174DF")
+                size_hint: (.4, .4)
+                
+        AnchorLayout:  
+            size: root.width, root.height       
+            size_hint_y: 5
+            Button:
+            # FA5858
+                id: btncapturar
+                #background_color: 0,0,0,0
+                font_size: 34
+                text:'CAPTURAR'
+                disabled: True
+                #background_color:rgba("#D8D8D8") #background disabled
+                on_press: root.accion()
+                #size_hint_y: 0.5
+                #size_hint: (.4, .4)
+                size_hint_x: 0.4
+                size_hint_y: 0.4
+                #size_hint: (.4, .4)
+                Image:
+                    source: 'click.png'
+                    y: self.parent.y + self.parent.height - 100
+                    x: self.parent.x + self.parent.width - 510
+                    width: 84
+            
+            Button:
+            # FA5858
+                id: btncapturarf
+                #background_color: 0,0,0,0
+                font_size: 34
+                text:''
+                disabled: True
+                #background_color:rgba("#D8D8D8") #background disabled
+                on_press: root.accionf()
+                size_hint_y: None
+                size_hint_x: None
+                width:0
+                opacity:0
+                #size_hint: (.4, .4)
+                #size_hint: (.4, .4)
+                Image:
+                    source: 'click.png'
+                    y: self.parent.y + self.parent.height - 100
+                    x: self.parent.x + self.parent.width - 510
+                    width: 84
+        AnchorLayout:  
+            size: root.width, root.height       
+            size_hint_y: 1
+            Label:
+                id:cptf
+                text: 'Calidad finca     \n\n '
+                font_size: 22
+                color: rgba("#333333")
+            CheckBox:
+                id: chkfinca
+                opacity:1
+                canvas.before:
+                    Rectangle:
+                        size: sp(20), sp(20)
+                        pos: int(self.center_x - sp(10)), int(self.center_y - sp(10))
+                on_press: root.on_checkbox_active(self, self.active)
+        AnchorLayout:  
+            size: root.width, root.height       
+            size_hint_y: 1            
+        GridLayout:  
+            cols: 4
+            size_hint_y: 1
+            row_default_height: 70
+            row_force_default: True
+            AnchorLayout:
+                anchor_x: 'right'
+                Button:
+                    id: btn_cerrart
+                    width: 340
+                    size_hint_x: None 
+                    font_size:34  
+                    text: 'CERRAR TURNO'
+                    disabled: True
+                    on_press: root.cambio_turno()
+                    Image:
+                        source: 'cerrar.png'
+                        y: self.parent.y + self.parent.height - 85
+                        x: self.parent.x + self.parent.width - 360
+                        width: 44
+            AnchorLayout:
+                size_hint_x: 0.1
+            AnchorLayout:
+                anchor_x: 'left'    
+                Button:
+                    id: btn_fin
+                    width: 340
+                    size_hint_x: None 
+                    font_size:34  
+                    text: 'FINALIZAR OF'
+                    disabled: True
+                    on_press: root.finalizo()
+                    Image:
+                        source: 'fin.png'
+                        y: self.parent.y + self.parent.height - 85
+                        x: self.parent.x + self.parent.width - 360
+                        width: 44
+            AnchorLayout:
+                anchor_x: 'left'    
+                Button:
+                    id: btn_printer
+                    width: 340
+                    size_hint_x: None 
+                    font_size:34  
+                    text: 'Reeimprimir'
+                    disabled: True
+                    on_press: root.printer()
+                    Image:
+                        source: 'printer.png'
+                        y: self.parent.y + self.parent.height - 85
+                        x: self.parent.x + self.parent.width - 360
+                        width: 44
+
+        BoxLayout:
+            size_hint_y: 3
+      
+                               
+        BoxLayout:
+            size_hint_y: 0.1
+            
+            Label:
+                id: lblcorrecto
+                text:''
+                color: 237 , 112 , 64 , 1
+                font_size: 20
+            
+            Label:
+                id: lblcorrectow
+                text:''
+                color: 237 , 112 , 64 , 1
+                font_size: 20
+  
+                
+        BoxLayout:
+            size_hint_y: 0.9
+            Button: #Undo button
+                id: btncanuto
+                background_color: rgba("#0174DF")
+                text: 'PESAR CANUTO'
+                font_size: 24
+                disabled: True
+                on_press: root.comenzar()
+            Button: #Undo button
+                background_color: rgba("#0174DF")
+                id: btnpesorollo
+                text: 'PESAR ROLLO'
+                font_size: 24
+                disabled: True
+                on_press: root.comenzart()
+            Button: #All erase button
+                id: btnpesodesperdicio
+                background_color: rgba("#0174DF")
+                text: 'PESAR PICADO'
+                font_size: 24
+                disabled: True
+                on_press: root.desperdicio()

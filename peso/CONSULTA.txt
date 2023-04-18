@@ -1,0 +1,293 @@
+LOCAL CONTADOR, CONTADOR_PM NumberVar;
+LOCAL HORA_INICIO, HORA_FIN Stringvar;
+
+HORA_INICIO := ''
+HORA_FIN := ''
+
+IF {?HORAINICIO} <> '' AND {?HORAFIN} <> ''
+ THEN
+     HORA_INICIO := {?HORAINICIO}
+     HORA_FIN := {?HORAFIN}
+ END IF
+ 
+
+SELECT COUNT(*) INTO CONTADOR_PM FROM OWOR T0 INNER JOIN OITM T1  ON T0."ItemCode"= T1."ItemCode" INNER JOIN OITB T2 ON T1."ItmsGrpCod" = T2."ItmsGrpCod" 
+WHERE T0."CloseDate"  between '2022/08/10' and '2022/08/10' AND  T0."SysCloseTm" >= :HORA_INICIO
+ AND
+(T1."ItmsGrpCod"= '288' OR T1."ItmsGrpCod"= '383' OR T1."ItmsGrpCod"= '287' OR T1."ItmsGrpCod"= '384' OR
+ T1."ItmsGrpCod"= '289' OR T1."ItmsGrpCod"= '381' OR T1."ItmsGrpCod"= '420' OR T1."ItmsGrpCod"= '430' OR 
+ T1."ItmsGrpCod"= '428' OR T1."ItmsGrpCod"= '277' OR T1."ItmsGrpCod"= '278' OR T1."ItmsGrpCod"= '276' OR 
+ T1."ItmsGrpCod"= '404' OR T1."ItmsGrpCod"= '322' OR T1."ItmsGrpCod"= '338');
+
+
+SELECT COUNT(*) INTO CONTADOR_PM FROM OWOR T0 INNER JOIN OITM T1  ON T0."ItemCode"= T1."ItemCode" INNER JOIN OITB T2 ON T1."ItmsGrpCod" = T2."ItmsGrpCod" 
+WHERE T0."CloseDate"  between '2022/08/10' and '2022/08/10' AND  T0."SysCloseTm" <= :HORA_FIN 
+ AND
+(T1."ItmsGrpCod"= '288' OR T1."ItmsGrpCod"= '383' OR T1."ItmsGrpCod"= '287' OR T1."ItmsGrpCod"= '384' OR
+ T1."ItmsGrpCod"= '289' OR T1."ItmsGrpCod"= '381' OR T1."ItmsGrpCod"= '420' OR T1."ItmsGrpCod"= '430' OR 
+ T1."ItmsGrpCod"= '428' OR T1."ItmsGrpCod"= '277' OR T1."ItmsGrpCod"= '278' OR T1."ItmsGrpCod"= '276' OR 
+ T1."ItmsGrpCod"= '404' OR T1."ItmsGrpCod"= '322' OR T1."ItmsGrpCod"= '338');
+
+
+SELECT COUNT(*) INTO CONTADOR FROM OWOR T0 INNER JOIN OITM T1  ON T0."ItemCode"= T1."ItemCode" INNER JOIN OITB T2 ON T1."ItmsGrpCod" = T2."ItmsGrpCod" 
+WHERE T0."CloseDate"  between '2022/08/09' and '2022/08/10' AND  T0."SysCloseTm" between '0' and '0' 
+ AND
+(T1."ItmsGrpCod"= '288' OR T1."ItmsGrpCod"= '383' OR T1."ItmsGrpCod"= '287' OR T1."ItmsGrpCod"= '384' OR
+ T1."ItmsGrpCod"= '289' OR T1."ItmsGrpCod"= '381' OR T1."ItmsGrpCod"= '420' OR T1."ItmsGrpCod"= '430' OR 
+ T1."ItmsGrpCod"= '428' OR T1."ItmsGrpCod"= '277' OR T1."ItmsGrpCod"= '278' OR T1."ItmsGrpCod"= '276' OR 
+ T1."ItmsGrpCod"= '404' OR T1."ItmsGrpCod"= '322' OR T1."ItmsGrpCod"= '338');
+IF :CONTADOR <> 0
+THEN
+    Select a3."ItemCode",a3."ItemName", a3."Peso Referencial", (a3."Consumido"/a3."Producido")*1000 "Peso Real", a3."Desperdicio" "Desperdicio Kg.", (a3."Desperdicio"/a3."Consumido")*100 "% Desperdicio", ((a3."Consumido"-a3."Desperdicio")/a3."Producido")*1000 "Peso producto Gr." FROM
+
+    (Select a2."ItemCode", a2."ItemName",a2."Peso Referencial", (a2."Consumido2"/a2."Cuenta2") "Consumido", (a2."Producido2"/a2."Cuenta2") "Producido", (a2."Desperdicio2"/a2."Cuenta2") "Desperdicio" FROM(
+
+    Select a1."ItemCode", a1."ItemName",a1."Peso Referencial", sum(a1."Cuenta") "Cuenta2", sum(a1."Producido") "Producido2", sum(a1."Consumido") "Consumido2", sum(a1."Desperdicio1") "Desperdicio2" FROM(
+
+    SELECT T0."ItemCode", T1."ItemName", T2."ItmsGrpNam"
+--, T1."U_EXX_PESTEOR" "Peso Referencial"
+
+, CASE WHEN T1."ItmsGrpCod"=287 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=288 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=289 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=322 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.30)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=338 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.30)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=381 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=383 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=384 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=420 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=430 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+ELSE T1."U_EXX_PESTEOR" END "Peso Referencial"
+
+,(SELECT sum(T11."Quantity") FROM OWOR T10 INNER JOIN IGE1 T11 ON T10."DocEntry"= T11."BaseEntry" INNER JOIN OIGE T12 ON T11."DocEntry" = T12."DocEntry" 
+WHERE T10."DocNum" =T0."DocNum" and  T11."ItemType"='4') "Consumido"
+
+,(SELECT sum(T21."Quantity") FROM OWOR T20 INNER JOIN IGN1 T21 ON T20."DocEntry"=T21."BaseEntry" INNER JOIN OIGN T22 ON T21."DocEntry"=T22."DocEntry" 
+WHERE T20."DocNum"=T0."DocNum" and T21."ItemCode" NOT Like 'MD%%') "Producido"
+
+,(SELECT sum(T21."Quantity") 
+	FROM OWOR T20 
+	INNER JOIN IGN1 T21 ON T20."DocEntry"=T21."BaseEntry" 
+	INNER JOIN OIGN T22 ON T21."DocEntry"=T22."DocEntry" 
+    INNER JOIN OITM T23 ON T21."ItemCode" = T23."ItemCode" and T23."QryGroup39"='Y'
+WHERE T20."DocNum"=T0."DocNum")  "Desperdicio1" 
+
+,count(T0."ItemCode") "Cuenta" 
+
+FROM OWOR T0 INNER JOIN OITM T1  ON T0."ItemCode"= T1."ItemCode" INNER JOIN OITB T2 ON T1."ItmsGrpCod" = T2."ItmsGrpCod" 
+WHERE T0."CloseDate"  between '2022/08/10' and '2022/08/10' AND  T0."SysCloseTm" between '900' and '2100' 
+--AND (T0."SysCloseTm" LIKE '%' OR  T0."SysCloseTm" LIKE  '{?HORAFIN}' OR T0."SysCloseTm" LIKE '""%' OR T0."SysCloseTm" LIKE '""%')
+ AND
+(T1."ItmsGrpCod"= '288' OR T1."ItmsGrpCod"= '383' OR T1."ItmsGrpCod"= '287' OR T1."ItmsGrpCod"= '384' OR
+ T1."ItmsGrpCod"= '289' OR T1."ItmsGrpCod"= '381' OR T1."ItmsGrpCod"= '420' OR T1."ItmsGrpCod"= '430' OR 
+ T1."ItmsGrpCod"= '428' OR T1."ItmsGrpCod"= '277' OR T1."ItmsGrpCod"= '278' OR T1."ItmsGrpCod"= '276' OR 
+ T1."ItmsGrpCod"= '404' OR T1."ItmsGrpCod"= '322' OR T1."ItmsGrpCod"= '338')
+ 
+GROUP BY T0."ItemCode", T1."ItemName", T2."ItmsGrpNam", T1."U_EXX_PESTEOR", T1."ItmsGrpCod", T0."DocNum" ORDER BY T1."ItemName"
+
+)a1 
+group by a1."ItemCode",a1."Peso Referencial", a1."ItemName"
+
+)a2
+
+)a3 order by a3."ItemName";
+ 
+
+ELSEIF :CONTADOR_PM <> 0
+ THEN 
+
+Select a3."ItemCode",a3."ItemName", a3."Peso Referencial", (a3."Consumido"/a3."Producido")*1000 "Peso Real", a3."Desperdicio" "Desperdicio Kg.", (a3."Desperdicio"/a3."Consumido")*100 "% Desperdicio", ((a3."Consumido"-a3."Desperdicio")/a3."Producido")*1000 "Peso producto Gr." FROM
+
+(Select a2."ItemCode", a2."ItemName",a2."Peso Referencial", (a2."Consumido2"/a2."Cuenta2") "Consumido", (a2."Producido2"/a2."Cuenta2") "Producido", (a2."Desperdicio2"/a2."Cuenta2") "Desperdicio" FROM(
+
+Select a1."ItemCode", a1."ItemName",a1."Peso Referencial", sum(a1."Cuenta") "Cuenta2", sum(a1."Producido") "Producido2", sum(a1."Consumido") "Consumido2", sum(a1."Desperdicio1") "Desperdicio2" FROM(
+
+SELECT T0."ItemCode", T1."ItemName", T2."ItmsGrpNam"
+--, T1."U_EXX_PESTEOR" "Peso Referencial"
+
+, CASE WHEN T1."ItmsGrpCod"=287 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=288 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=289 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=322 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.30)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=338 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.30)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=381 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=383 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=384 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=420 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=430 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+ELSE T1."U_EXX_PESTEOR" END "Peso Referencial"
+
+,(SELECT sum(T11."Quantity") FROM OWOR T10 INNER JOIN IGE1 T11 ON T10."DocEntry"= T11."BaseEntry" INNER JOIN OIGE T12 ON T11."DocEntry" = T12."DocEntry" 
+WHERE T10."DocNum" =T0."DocNum" and  T11."ItemType"='4') "Consumido"
+
+,(SELECT sum(T21."Quantity") FROM OWOR T20 INNER JOIN IGN1 T21 ON T20."DocEntry"=T21."BaseEntry" INNER JOIN OIGN T22 ON T21."DocEntry"=T22."DocEntry" 
+WHERE T20."DocNum"=T0."DocNum" and T21."ItemCode" NOT Like 'MD%%') "Producido"
+
+,(SELECT sum(T21."Quantity") 
+	FROM OWOR T20 
+	INNER JOIN IGN1 T21 ON T20."DocEntry"=T21."BaseEntry" 
+	INNER JOIN OIGN T22 ON T21."DocEntry"=T22."DocEntry" 
+    INNER JOIN OITM T23 ON T21."ItemCode" = T23."ItemCode" and T23."QryGroup39"='Y'
+WHERE T20."DocNum"=T0."DocNum")  "Desperdicio1" 
+
+,count(T0."ItemCode") "Cuenta" 
+
+FROM OWOR T0 INNER JOIN OITM T1  ON T0."ItemCode"= T1."ItemCode" INNER JOIN OITB T2 ON T1."ItmsGrpCod" = T2."ItmsGrpCod" 
+WHERE T0."CloseDate"  between '2022/08/10' and '2022/08/10' AND  T0."SysCloseTm" >= '2100'
+--AND (T0."SysCloseTm" LIKE '%' OR  T0."SysCloseTm" LIKE  '{?HORAFIN}%' OR T0."SysCloseTm" LIKE '""%' OR T0."SysCloseTm" LIKE '""%')
+ AND
+(T1."ItmsGrpCod"= '288' OR T1."ItmsGrpCod"= '383' OR T1."ItmsGrpCod"= '287' OR T1."ItmsGrpCod"= '384' OR
+ T1."ItmsGrpCod"= '289' OR T1."ItmsGrpCod"= '381' OR T1."ItmsGrpCod"= '420' OR T1."ItmsGrpCod"= '430' OR 
+ T1."ItmsGrpCod"= '428' OR T1."ItmsGrpCod"= '277' OR T1."ItmsGrpCod"= '278' OR T1."ItmsGrpCod"= '276' OR 
+ T1."ItmsGrpCod"= '404' OR T1."ItmsGrpCod"= '322' OR T1."ItmsGrpCod"= '338')
+ 
+GROUP BY T0."ItemCode", T1."ItemName", T2."ItmsGrpNam", T1."U_EXX_PESTEOR", T1."ItmsGrpCod", T0."DocNum" ORDER BY T1."ItemName"
+
+)a1 
+group by a1."ItemCode",a1."Peso Referencial", a1."ItemName"
+
+)a2
+
+)a3
+
+
+UNION ALL
+
+
+Select a3."ItemCode",a3."ItemName", a3."Peso Referencial", (a3."Consumido"/a3."Producido")*1000 "Peso Real", a3."Desperdicio" "Desperdicio Kg.", (a3."Desperdicio"/a3."Consumido")*100 "% Desperdicio", ((a3."Consumido"-a3."Desperdicio")/a3."Producido")*1000 "Peso producto Gr." FROM
+
+(Select a2."ItemCode", a2."ItemName",a2."Peso Referencial", (a2."Consumido2"/a2."Cuenta2") "Consumido", (a2."Producido2"/a2."Cuenta2") "Producido", (a2."Desperdicio2"/a2."Cuenta2") "Desperdicio" FROM(
+
+Select a1."ItemCode", a1."ItemName",a1."Peso Referencial", sum(a1."Cuenta") "Cuenta2", sum(a1."Producido") "Producido2", sum(a1."Consumido") "Consumido2", sum(a1."Desperdicio1") "Desperdicio2" FROM(
+
+SELECT T0."ItemCode", T1."ItemName", T2."ItmsGrpNam"
+--, T1."U_EXX_PESTEOR" "Peso Referencial"
+
+, CASE WHEN T1."ItmsGrpCod"=287 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=288 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=289 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=322 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.30)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=338 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.30)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=381 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=383 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=384 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=420 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=430 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+ELSE T1."U_EXX_PESTEOR" END "Peso Referencial"
+
+,(SELECT sum(T11."Quantity") FROM OWOR T10 INNER JOIN IGE1 T11 ON T10."DocEntry"= T11."BaseEntry" INNER JOIN OIGE T12 ON T11."DocEntry" = T12."DocEntry" 
+WHERE T10."DocNum" =T0."DocNum" and  T11."ItemType"='4') "Consumido"
+
+,(SELECT sum(T21."Quantity") FROM OWOR T20 INNER JOIN IGN1 T21 ON T20."DocEntry"=T21."BaseEntry" INNER JOIN OIGN T22 ON T21."DocEntry"=T22."DocEntry" 
+WHERE T20."DocNum"=T0."DocNum" and T21."ItemCode" NOT Like 'MD%%') "Producido"
+
+,(SELECT sum(T21."Quantity") 
+	FROM OWOR T20 
+	INNER JOIN IGN1 T21 ON T20."DocEntry"=T21."BaseEntry" 
+	INNER JOIN OIGN T22 ON T21."DocEntry"=T22."DocEntry" 
+    INNER JOIN OITM T23 ON T21."ItemCode" = T23."ItemCode" and T23."QryGroup39"='Y'
+WHERE T20."DocNum"=T0."DocNum")  "Desperdicio1" 
+
+,count(T0."ItemCode") "Cuenta" 
+
+FROM OWOR T0 INNER JOIN OITM T1  ON T0."ItemCode"= T1."ItemCode" INNER JOIN OITB T2 ON T1."ItmsGrpCod" = T2."ItmsGrpCod" 
+WHERE T0."CloseDate"  between '2022/08/10' and '2022/08/10' AND  T0."SysCloseTm" <= '900'
+--AND (T0."SysCloseTm" LIKE '%' OR  T0."SysCloseTm" LIKE  '{?HORAFIN}%' OR T0."SysCloseTm" LIKE '""%' OR T0."SysCloseTm" LIKE '""%')
+ AND
+(T1."ItmsGrpCod"= '288' OR T1."ItmsGrpCod"= '383' OR T1."ItmsGrpCod"= '287' OR T1."ItmsGrpCod"= '384' OR
+ T1."ItmsGrpCod"= '289' OR T1."ItmsGrpCod"= '381' OR T1."ItmsGrpCod"= '420' OR T1."ItmsGrpCod"= '430' OR 
+ T1."ItmsGrpCod"= '428' OR T1."ItmsGrpCod"= '277' OR T1."ItmsGrpCod"= '278' OR T1."ItmsGrpCod"= '276' OR 
+ T1."ItmsGrpCod"= '404' OR T1."ItmsGrpCod"= '322' OR T1."ItmsGrpCod"= '338')
+ 
+GROUP BY T0."ItemCode", T1."ItemName", T2."ItmsGrpNam", T1."U_EXX_PESTEOR", T1."ItmsGrpCod", T0."DocNum" ORDER BY T1."ItemName"
+
+)a1 
+group by a1."ItemCode",a1."Peso Referencial", a1."ItemName"
+
+)a2
+
+)a3 order by a3."ItemName";
+
+ELSE 
+ 
+  SelecT a3."ItemCode",a3."ItemName", a3."Peso Referencial", (a3."Consumido"/a3."Producido")*1000 "Peso Real", a3."Desperdicio" "Desperdicio Kg.", (a3."Desperdicio"/a3."Consumido")*100 "% Desperdicio", ((a3."Consumido"-a3."Desperdicio")/a3."Producido")*1000 "Peso producto Gr." FROM
+
+(Select a2."ItemCode", a2."ItemName",a2."Peso Referencial", (a2."Consumido2"/a2."Cuenta2") "Consumido", (a2."Producido2"/a2."Cuenta2") "Producido", (a2."Desperdicio2"/a2."Cuenta2") "Desperdicio" FROM(
+
+Select a1."ItemCode", a1."ItemName",a1."Peso Referencial", sum(a1."Cuenta") "Cuenta2", sum(a1."Producido") "Producido2", sum(a1."Consumido") "Consumido2", sum(a1."Desperdicio1") "Desperdicio2" FROM(
+
+SELECT T0."ItemCode", T1."ItemName", T2."ItmsGrpNam"
+--, T1."U_EXX_PESTEOR" "Peso Referencial"
+
+, CASE WHEN T1."ItmsGrpCod"=287 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=288 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=289 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=322 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.30)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=338 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.30)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=381 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=383 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=384 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE)
+WHEN T1."ItmsGrpCod"=420 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+WHEN T1."ItmsGrpCod"=430 THEN  CAST((T1."U_EXX_PESTEOR" - (T1."U_EXX_PESTEOR" * 0.20)) AS DOUBLE) 
+ELSE T1."U_EXX_PESTEOR" END "Peso Referencial"
+
+,(SELECT sum(T11."Quantity") FROM OWOR T10 INNER JOIN IGE1 T11 ON T10."DocEntry"= T11."BaseEntry" INNER JOIN OIGE T12 ON T11."DocEntry" = T12."DocEntry" 
+WHERE T10."DocNum" =T0."DocNum" and  T11."ItemType"='4') "Consumido"
+
+,(SELECT sum(T21."Quantity") FROM OWOR T20 INNER JOIN IGN1 T21 ON T20."DocEntry"=T21."BaseEntry" INNER JOIN OIGN T22 ON T21."DocEntry"=T22."DocEntry" 
+WHERE T20."DocNum"=T0."DocNum" and T21."ItemCode" NOT Like 'MD%%') "Producido"
+
+,(SELECT sum(T21."Quantity") 
+	FROM OWOR T20 
+	INNER JOIN IGN1 T21 ON T20."DocEntry"=T21."BaseEntry" 
+	INNER JOIN OIGN T22 ON T21."DocEntry"=T22."DocEntry" 
+    INNER JOIN OITM T23 ON T21."ItemCode" = T23."ItemCode" and T23."QryGroup39"='Y'
+WHERE T20."DocNum"=T0."DocNum")  "Desperdicio1" 
+
+,count(T0."ItemCode") "Cuenta" 
+
+FROM OWOR T0 INNER JOIN OITM T1  ON T0."ItemCode"= T1."ItemCode" INNER JOIN OITB T2 ON T1."ItmsGrpCod" = T2."ItmsGrpCod" 
+WHERE T0."CloseDate"  between '2022/08/09' and '2022/08/10'
+--AND (T0."SysCloseTm" LIKE '%' OR  T0."SysCloseTm" LIKE  '{?HORAFIN}%' OR T0."SysCloseTm" LIKE '""%' OR T0."SysCloseTm" LIKE '""%')
+ AND
+(T1."ItmsGrpCod"= '288' OR T1."ItmsGrpCod"= '383' OR T1."ItmsGrpCod"= '287' OR T1."ItmsGrpCod"= '384' OR
+ T1."ItmsGrpCod"= '289' OR T1."ItmsGrpCod"= '381' OR T1."ItmsGrpCod"= '420' OR T1."ItmsGrpCod"= '430' OR 
+ T1."ItmsGrpCod"= '428' OR T1."ItmsGrpCod"= '277' OR T1."ItmsGrpCod"= '278' OR T1."ItmsGrpCod"= '276' OR 
+ T1."ItmsGrpCod"= '404' OR T1."ItmsGrpCod"= '322' OR T1."ItmsGrpCod"= '338')
+ 
+GROUP BY T0."ItemCode", T1."ItemName", T2."ItmsGrpNam", T1."U_EXX_PESTEOR", T1."ItmsGrpCod", T0."DocNum" ORDER BY T1."ItemName"
+
+)a1 
+group by a1."ItemCode",a1."Peso Referencial", a1."ItemName"
+
+)a2
+
+)a3 order by a3."ItemName";
+
+
+END IF;
+
+
+
+SELECT T0."DocNum", YEAR(T0."DocDate") "Año", 
+CASE  MONTH(T0."DocDate")
+WHEN 1 THEN 'Enero'
+WHEN 2 THEN 'Febrero'
+WHEN 3 THEN 'Marzo'
+WHEN 4 THEN 'Abril'
+WHEN 5 THEN 'Mayo'
+WHEN 6 THEN 'Junio'
+WHEN 7 THEN 'Julio'
+WHEN 8 THEN 'Agosto'
+WHEN 9 THEN 'Septiembre'
+WHEN 10 THEN 'Octubre'
+WHEN 11 THEN 'Noviembre'
+WHEN 12 THEN 'Diciembre'
+END AS "Mes"
+, T0."TaxDate",T0."CardName", T1."GroupCode", T2."ItemCode" ,
+  T2."Dscription" FROM "SUPRALIVE_PRD"."ORDR" 
+  T0 INNER JOIN "SUPRALIVE_PRD"."OCRD"  T1 ON T0."CardCode" = T1."CardCode" 
+  INNER JOIN RDR1 T2 ON T0."DocEntry" = T2."DocEntry"
+ORDER BY T0."DocNum" DESC LIMIT 10
+
+

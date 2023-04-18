@@ -1,0 +1,63 @@
+#:import rgba kivy.utils.get_color_from_hex
+<Inicio@Screen>:
+    name: 'inicio'
+    canvas:
+        Color:
+            rgba: rgba("#CEECF5")
+        Rectangle: 
+            size: self.size
+            pos: self.pos
+    cols:1
+    rows:1
+    padding: 50
+    spacing: 100
+    BoxLayout:
+        size_hint: [.9, .9]
+        pos_hint: { 'top' : .95, 'right': .95}
+        orientation: 'vertical'
+        spacing: 120      
+
+        Label:
+            text: 'Iniciar Proceso de Pesaje'
+            font_size: 32
+            color: 237 , 112 , 64 , 1
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            TextInput:
+                id: idofab
+                multiline:False
+                font_size: 28
+                hint_text: 'Órden de Fabricación'
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            TextInput:
+                id: idoperador
+                multiline:False
+                font_size: 28
+                hint_text: 'Seleccione Operador'
+
+        Button:
+            text: 'Iniciar Pesaje'
+            font_size: 24 
+            on_press: root.generate_number()
+            background_normal: ''
+
+
+            background_color: rgba("#0174DF")
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,77 @@
+#:kivy 2.0.0
+#:import rgba kivy.utils.get_color_from_hex
+<Login@Screen>:
+    name: 'login'
+    BoxLayout:
+        padding:100
+        canvas:
+            Color:
+                rgba: rgba("#CEECF5")
+            Rectangle: 
+                size: self.size
+                pos: self.pos
+        orientation: 'vertical' #Arrange four child objects vertically
+        AnchorLayout:   
+            size_hint_y: 0.3
+
+            Label:
+                color: rgba("#0174DF")
+                text: 'INICIAR SESIÓN'
+                font_size: 32
+        AnchorLayout:   
+            size_hint_y: 0.2
+            Label:
+                id: rlabel
+                bold: True
+                font_size: 24
+                color: 145 , 200 , 164 , 1
+
+        AnchorLayout:
+            size_hint_y: 0.2
+            Label:
+                color: rgba("#0174DF")
+                text: 'USUARIO SUPERVISOR'
+                font_size: 18
+                halign: 'center'
+                text_size: root.width-20, 20
+        AnchorLayout:   
+            size_hint_y: 0.2
+            TextInput:
+                color: 237 , 112 , 64 , 1
+                id: login
+                multiline:False
+                font_size: 24
+                width: 300
+                size_hint_x: None 
+
+
+        AnchorLayout:
+            size_hint_y: 0.2
+            Label:
+                color: rgba("#0174DF")
+                text: 'PASSWORD SUPERVISOR'
+                halign: 'center'
+                font_size: 18
+                text_size: root.width-20, 20
+                
+        AnchorLayout:
+            size_hint_y: 0.2
+            TextInput:
+                id: password
+                multiline:False
+                password:True
+                font_size: 16
+                width: 300
+                size_hint_x: None                 
+
+        AnchorLayout:
+            size_hint_y: 0.7
+            Button:
+                on_press:root.validar_usuario()
+                size_hint_y: 0.4
+                text: 'INICIAR'
+                font_size: 24
+                background_normal: ''
+                background_color: rgba("#0174DF")
+                width: 500
+                size_hint_x: None                 

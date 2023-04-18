@@ -1,0 +1,107 @@
+#:import rgba kivy.utils.get_color_from_hex
+<P>:
+    Label:
+        text: "\n\nDesea iniciar una nueva\nóden en esta máquina?"
+        size_hint: 0.6, 0.2
+        pos_hint: {"x":0.2, "top":1}
+    Button:
+        text: 'Confirmar'
+        size_hint: 0.8, 0.3
+        pos_hint: {"x":0.1, "y":0.1}
+        on_press: root.iniciomaq1()
+
+<Maquinadatos@Screen>
+    name:'maquinadatos'   
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: rgba("#D8D8D8")
+            Rectangle: 
+                size: self.size
+                pos: self.pos
+
+        orientation: 'vertical' #Arrange four child objects vertically
+        padding:20
+
+        BoxLayout:   
+            Button: 
+                id: maq1
+                background_color: rgba("#01DFA5")
+                font_size:24
+                #size_hint_y: 0.1
+                #size_hint: 0.9, 10 
+                text: '\nASIGNACIÓN DE OPERADOR \nPARADA 1'
+                #on_press: root.tier()
+                height: 170
+                size_hint_y: None 
+                Image:
+                    source: 'usando.png'
+                    y: self.parent.y + self.parent.height - 170
+                    x: self.parent.x + self.parent.width - 400
+                    width: 100
+            
+        
+
+        BoxLayout:
+            size_hint_y: 1
+
+        AnchorLayout:  
+            size: root.width, root.height       
+            size_hint_y: 1
+            TextInput:
+                id: txt_ofmaq1
+                size_hint: 0.4, 0.7
+                hint_text: 'ÓRDEN DE FABRICACIÓN'
+                font_size: 24
+        AnchorLayout:  
+            size: root.width, root.height       
+            size_hint_y: 1
+            TextInput:
+                id: txt_opmaq1
+                size_hint: 0.4, 0.7
+                hint_text: 'OPERADOR DE MÁQUINA'
+                font_size: 24
+
+        GridLayout:
+            cols: 3
+            size_hint_y: 1
+            row_default_height: 70
+            row_force_default: True
+            AnchorLayout:
+                anchor_x: 'right'
+                padding:3       
+                Button:
+                    on_press:root.regresar()
+                    size_hint_y: 0.4
+                    text: 'Regresar'
+                    font_size: 24
+                    background_normal: ''
+                    background_color: rgba("#0174DF")
+                    width: 200
+                    height:40
+                    
+                    size_hint_x: None   
+                    size_hint_y: None 
+            AnchorLayout:
+                anchor_x: 'left'  
+                Button:
+                    id: f_but
+                    text:'Iniciar Proceso'
+                    on_press: root.inicioprocesom1()  
+                    font_size: 24
+                    background_normal: ''
+                    background_color: rgba("#1ABC9C")
+                    width: 200
+                    height:40
+                    size_hint_x: None   
+                    size_hint_y: None                        
+
+        AnchorLayout:  
+            size: root.width, root.height       
+            size_hint_y: 1
+            
+        BoxLayout:
+                                                                                    
+            size_hint_y: 1       
+
+       
